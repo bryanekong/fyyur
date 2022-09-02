@@ -11,6 +11,8 @@ moment = Moment(app)
 app.config.from_object('config')
 
 # DONE: connect to a local postgresql database
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 #----------------------------------------------------------------------------#
 # Models.

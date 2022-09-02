@@ -11,12 +11,6 @@ moment = Moment(app)
 app.config.from_object('config')
 
 # DONE: connect to a local postgresql database
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
-from app import db # import the database object from the app object
-
-
 
 #----------------------------------------------------------------------------#
 # Models.
@@ -38,9 +32,10 @@ class Venue(db.Model): # to create the Venue model
     seeking_talent = db.Column(db.Boolean, nullable=False)
     seeking_description = db.Column(db.String(120), nullable=False)
     shows = db.relationship('Show', backref='venue', lazy=True)
+
+    def __repr__(self):
+        return f'<Venue {self.id} {self.name}>'
     
-    def __repr__(self): # to print the Venue model
-        return f'<Venue {self.id} {self.name}>' # to print the Venue model
 
 class Artist(db.Model): # to create the Artist model
     __tablename__ = 'Artist' # to set the table name to Artist
@@ -58,8 +53,10 @@ class Artist(db.Model): # to create the Artist model
     seeking_description = db.Column(db.String(120), nullable=False)
     shows = db.relationship('Show', backref='artist', lazy=True)
 
-    def __repr__(self): # to print the Artist model
-        return f'<Artist {self.id} {self.name}>' # to print the Artist model
+    def __repr__(self):
+        return f'<Artist {self.id} {self.name}>'
+
+
 
 class Show(db.Model): # to create the Show model
     __tablename__ = 'Show'  # to set the table name to show
@@ -68,6 +65,8 @@ class Show(db.Model): # to create the Show model
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'), nullable=False)
     artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'), nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
-        
-    def __repr__(self): # to print the Show model
-        return f'<Show {self.id} {self.venue_id} {self.artist_id} {self.start_time}>' # to print the Show model
+    def __repr__(self):
+        return f'<Show {self.id} {self.venue_id} {self.artist_id} {self.start_time}>'
+    
+
+db.create_all() # to create the tables in the database
